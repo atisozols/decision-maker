@@ -77,7 +77,7 @@ const AddInput = ({
           style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
           className="fixed inset-0 flex items-center justify-center z-50 p-8"
         >
-          <div className="bg-white p-8 shadow w-full max-w-sm lg:max-w-md">
+          <div className="bg-background p-8 shadow w-full max-w-sm lg:max-w-md">
             <ul className="text-justify font-extralight space-y-4">
               <li className="flex items-start space-x-5">
                 <span>1</span>
