@@ -107,6 +107,10 @@ body {
   border-color: var(--border);
 }
 
+.border-foreground {
+  border-color: var(--foreground);
+}
+
 /* Custom styling for range inputs across all browsers */
 
 input[type="range"] {

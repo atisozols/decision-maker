@@ -13,12 +13,21 @@ import {
 } from "react-icons/io";
 import { FaInstagram, FaPlus, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import translateRating from "@/utils/translateRating";
+import Link from "next/link";
+import Socials from "@/components/Socials";
 
-function AddInput({ placeholder, value, onChange, onKeyDown, onClick }) {
+function AddInput({
+  placeholder,
+  showQuestion = false,
+  value,
+  onChange,
+  onKeyDown,
+  onClick,
+}) {
   return (
     <div
       style={{ marginBottom: "20vh" }}
-      className="flex mb-4 shadow-md rounded-xl dark:border border-accent w-full max-w-sm lg:max-w-lg font-thin h-14 lg:h-16 lg:text-lg"
+      className="relative flex mb-4 shadow-sm dark:border border-accent w-full max-w-sm lg:max-w-lg font-thin h-14 lg:h-16 lg:text-lg"
     >
       <input
         type="text"
@@ -39,6 +48,14 @@ function AddInput({ placeholder, value, onChange, onKeyDown, onClick }) {
       >
         <FaPlus className="text-lg lg:text-2xl" />
       </button>
+      {showQuestion && (
+        <Link
+          href="/about"
+          className="absolute -bottom-8 text-xs lg:text-sm w-full text-center hover:underline underline-offset-4"
+        >
+          Kas te notiek?
+        </Link>
+      )}
     </div>
   );
 }
@@ -49,7 +66,7 @@ function OptionCard({ option, index, onAccept, onDelete }) {
   const [editValue, setEditValue] = useState(option);
 
   return (
-    <li className="shadow-md p-4 mb-1 lg:mb-3 rounded-xl dark:border border-accent flex items-center justify-between max-w-sm lg:max-w-lg mx-auto h-14 lg:h-16 lg:text-lg">
+    <li className="shadow-sm p-4 mb-1 lg:mb-3 dark:border border-accent flex items-center justify-between max-w-sm lg:max-w-lg mx-auto h-14 lg:h-16 lg:text-lg">
       {isEditing ? (
         <>
           <input
@@ -97,7 +114,7 @@ function OptionCard({ option, index, onAccept, onDelete }) {
             </button>
             <button
               onClick={() => onDelete(index)}
-              className="cursor-pointer text-sm lg:text-lg text-red-500"
+              className="cursor-pointer text-sm lg:text-lg"
             >
               <MdClose className="text-xl lg:text-3xl" />
             </button>
@@ -121,7 +138,7 @@ function CriterionCard({
   const [editValue, setEditValue] = useState(criterion);
 
   return (
-    <div className="shadow-md p-4 mb-1 lg:mb-3 rounded-xl dark:border border-accent flex items-center justify-between h-14 lg:h-16 lg:text-lg">
+    <div className="shadow-md p-4 mb-1 lg:mb-3 dark:border border-accent flex items-center justify-between h-14 lg:h-16 lg:text-lg">
       {isEditing ? (
         <>
           <input
@@ -177,7 +194,7 @@ function CriterionCard({
             </button>
             <button
               onClick={() => onDelete(index)}
-              className="cursor-pointer text-sm lg:text-lg text-red-500"
+              className="cursor-pointer text-sm lg:text-lg"
             >
               <MdClose className="text-xl lg:text-3xl" />
             </button>
@@ -220,9 +237,20 @@ function OptionsStep({ onNext }) {
 
   return (
     <div className="flex flex-col items-center w-full max-w-sm lg:max-w-lg mx-auto">
-      <h2 className="text-3xl lg:text-5xl text-center font-thin mb-8">
-        <span className="font-black">Varianti</span>, starp kuriem jāizvēlas
+      <h2 className="text-4xl lg:text-6xl text-left font-thin mb-2 w-full">
+        <span className="font-black">lēmums</span>
       </h2>
+      <p className="italic text-left w-full font-extralight mb-4 text-sm lg:text-base">
+        lietvārds
+      </p>
+      <hr
+        style={{ borderTopWidth: "0.5px" }}
+        className="w-full border-foreground mb-4"
+      />
+      <p className="mb-10 text-sm lg:text-base w-full">
+        izvēle, kas izriet no vairāku iespēju vispusīgas apsvēršanas,
+        pārdomāšanas un apspriešanas
+      </p>
       {decision.options.length > 0 && (
         <ul className="w-full max-w-lg font-extralight">
           {decision.options.map((option, index) => (
@@ -237,8 +265,9 @@ function OptionsStep({ onNext }) {
         </ul>
       )}
       <AddInput
-        placeholder="Ievadi variantu"
+        placeholder="Ievadi izvēles iespēju"
         value={newOption}
+        showQuestion={decision.options.length < 2}
         onChange={(e) => setNewOption(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") handleAddOption();
@@ -306,10 +335,12 @@ function CriteriaStep({ onNext, onBack }) {
 
   return (
     <div className="flex flex-col items-center w-full max-w-sm lg:max-w-lg mx-auto">
-      <h2 className="text-3xl lg:text-5xl text-center font-thin mb-4">
-        <span className="font-black">Kritēriji</span>, kas ietekmē lēmumu
+      <h2 className="text-3xl lg:text-5xl text-left font-thin mb-4">
+        <span className="font-black">kritēriji</span>*, kas ietekmē lēmumu:
       </h2>
-      <p className="mb-8 font-thin">Sakārto tos prioritārā secībā!</p>
+      <p className="mb-8 font-thin w-full text-right text-sm lg:text-base">
+        *sakārto tos prioritārā secībā!
+      </p>
       {decision.criteria.length > 0 && (
         <ul className="w-full max-w-lg font-extralight">
           {decision.criteria.map((criterion, index) => (
@@ -527,17 +558,7 @@ function GlobalNavigation() {
           <div></div>
         )}
       </div>
-      <div className="w-full max-w-sm mx-auto flex items-center justify-center gap-8">
-        <a href="https://x.com/atis_ozols">
-          <FaXTwitter className="text-lg" />
-        </a>
-        <a href="https://youtube.com/@atisozols">
-          <FaYoutube className="text-xl" />
-        </a>
-        <a href="https://instagram.com/atisozols">
-          <FaInstagram className="text-lg" />
-        </a>
-      </div>
+      <Socials />
       <div id="footer"></div>
     </div>
   );
@@ -547,7 +568,7 @@ function HomeContent() {
   const { step } = useDecision();
 
   return (
-    <div className="relative" style={{ minHeight: "70vh" }}>
+    <div className="relative" style={{ minHeight: "80vh", marginTop: "15vh" }}>
       <div className="flex flex-col items-center p-8 space-y-6">
         {step === 1 && <OptionsStep />}
         {step === 2 && <CriteriaStep />}
