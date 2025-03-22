@@ -32,8 +32,8 @@ const page = () => {
         <span className="italic font-extralight">
           vienkārša, bet efektīva metode
         </span>
-        , lai racionalizētu izvēles, kas balstītas uz vairākiem faktoriem,
-        kuriem atšķiras prioritāte.
+        , lai racionalizētu izvēles, kas balstītas uz vairākiem pēc prioritātes
+        sakārtotiem faktoriem.
       </p>
       <p className="font-thin w-full text-center">
         Negribēju katru reizi izmantot papīru un pildspalvu, jo mūsdienās
